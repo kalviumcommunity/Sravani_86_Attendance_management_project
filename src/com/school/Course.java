@@ -1,6 +1,7 @@
 package com.school;
 
 public class Course {
+    // Private fields (encapsulation)
     private static int nextCourseIdCounter = 101;  // static counter starts at 101
     private int courseId;
     private String courseName;
@@ -8,6 +9,20 @@ public class Course {
     // Constructor
     public Course(String courseName) {
         this.courseId = nextCourseIdCounter++; // auto-generate ID
+        this.courseName = courseName;
+    }
+
+    // Public getters
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    // Optional setter if you want to allow course name updates
+    public void setDetails(String courseName) {
         this.courseName = courseName;
     }
 
