@@ -1,33 +1,30 @@
 package com.school;
 
-public class Student {
-    // Private fields (encapsulation)
-    private static int nextStudentIdCounter = 1;  // static counter shared by all students
-    private int studentId;
-    private String name;
+public class Student extends Person {
+    private String gradeLevel;
 
     // Constructor
-    public Student(String name) {
-        this.studentId = nextStudentIdCounter++; // auto-generate ID
-        this.name = name;
+    public Student(String name, String gradeLevel) {
+        super(name); // Call Person constructor to set ID and name
+        this.gradeLevel = gradeLevel;
     }
 
-    // Public getters
-    public int getStudentId() {
-        return studentId;
+    // Getter for gradeLevel
+    public String getGradeLevel() {
+        return gradeLevel;
     }
 
-    public String getName() {
-        return name;
+    // Optional setter
+    public void setGradeLevel(String gradeLevel) {
+        this.gradeLevel = gradeLevel;
     }
 
-    // Optional setter if you want to allow name updates
-    public void setDetails(String name) {
-        this.name = name;
-    }
-
-    // Display student details
+    // Override displayDetails to include role and grade
+    @Override
     public void displayDetails() {
-        System.out.println("Student ID: S" + studentId + ", Name: " + name);
+        super.displayDetails(); // Display ID and name from Person
+        System.out.println("Role: Student");
+        System.out.println("Grade Level: " + gradeLevel);
+        System.out.println("-------------------------");
     }
 }

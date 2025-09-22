@@ -3,11 +3,13 @@ package com.school;
 public class AttendanceRecord {
     private int studentId;
     private int courseId;
-    private String status; // "Present" | "Absent" | "Invalid"
+    private String status; 
+
 
     public AttendanceRecord(int studentId, int courseId, String status) {
         this.studentId = studentId;
         this.courseId = courseId;
+
 
         // Validation (case-insensitive)
         if (status != null &&

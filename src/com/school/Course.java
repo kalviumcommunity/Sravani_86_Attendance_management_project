@@ -6,11 +6,13 @@ public class Course {
     private int courseId;
     private String courseName;
 
+
     // Constructor
     public Course(String courseName) {
         this.courseId = nextCourseIdCounter++; // auto-generate ID
         this.courseName = courseName;
     }
+    
 
     // Public getters
     public int getCourseId() {
