@@ -45,20 +45,31 @@ public class Main {
         c2.displayDetails();
         c3.displayDetails();
 
-        // Part 4: Attendance Log
+        // Attendance Log
         System.out.println("\n=== Attendance Records ===");
         List<AttendanceRecord> attendanceLog = new ArrayList<>();
-
-        // Valid records using inherited getId()
         attendanceLog.add(new AttendanceRecord(s1.getId(), c1.getCourseId(), "Present"));
-        attendanceLog.add(new AttendanceRecord(s2.getId(), c2.getCourseId(), "ABSENT")); // case-insensitive
+        attendanceLog.add(new AttendanceRecord(s2.getId(), c2.getCourseId(), "ABSENT"));
+        attendanceLog.add(new AttendanceRecord(s3.getId(), c3.getCourseId(), "Late")); // invalid
 
-        // Invalid status (to test validation)
-        attendanceLog.add(new AttendanceRecord(s3.getId(), c3.getCourseId(), "Late"));
-
-        // Display all attendance records
         for (AttendanceRecord record : attendanceLog) {
             record.displayRecord();
         }
+
+        // === Part 6: Save data to files ===
+        List<Student> students = new ArrayList<>();
+        students.add(s1);
+        students.add(s2);
+        students.add(s3);
+
+        List<Course> courses = new ArrayList<>();
+        courses.add(c1);
+        courses.add(c2);
+        courses.add(c3);
+
+        FileStorageService storage = new FileStorageService();
+        storage.saveData(students, "students.txt");
+        storage.saveData(courses, "courses.txt");
+        storage.saveData(attendanceLog, "attendance_log.txt");
     }
 }

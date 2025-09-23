@@ -65,3 +65,13 @@ This is the starter setup for the Attendance Management System built using Java 
 2. Compile: `javac src/com/school/*.java`
 3. Run: `java -cp src com.school.Main`
 
+## Part 6: Interface-Driven Persistence with Storage
+- Defined a `Storable` interface with a `toDataString()` method.
+- Modified `Student`, `Course`, and `AttendanceRecord` classes to implement `Storable`.
+- Created `FileStorageService` with `saveData(List<? extends Storable> items, String filename)` that writes CSV lines to a file.
+- Demonstrated in `Main` how to save lists to `students.txt`, `courses.txt`, and `attendance_log.txt`.
+
+### How to Run
+1. From project root: `javac src/com/school/*.java`
+2. Run: `java -cp src com.school.Main`
+3. Check output files: `students.txt`, `courses.txt`, `attendance_log.txt`
