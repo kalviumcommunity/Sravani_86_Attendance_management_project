@@ -1,15 +1,14 @@
 package com.school;
 
-public class AttendanceRecord {
+public class AttendanceRecord implements Storable {
     private int studentId;
     private int courseId;
     private String status; 
 
-
+    // Constructor with validation
     public AttendanceRecord(int studentId, int courseId, String status) {
         this.studentId = studentId;
         this.courseId = courseId;
-
 
         // Validation (case-insensitive)
         if (status != null &&
@@ -22,6 +21,7 @@ public class AttendanceRecord {
         }
     }
 
+    // Getters
     public int getStudentId() {
         return studentId;
     }
@@ -34,7 +34,14 @@ public class AttendanceRecord {
         return status;
     }
 
+    // Display attendance record
     public void displayRecord() {
         System.out.println("Attendance => Student: " + studentId + ", Course: " + courseId + ", Status: " + status);
+    }
+
+    // Implement Storable (CSV format)
+    @Override
+    public String toDataString() {
+        return studentId + "," + courseId + "," + status;
     }
 }
