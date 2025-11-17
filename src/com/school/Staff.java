@@ -1,6 +1,6 @@
 package com.school;
 
-public class Staff extends Person {
+public class Staff extends Person implements Storable {
     private String staffRole;
 
     public Staff(String name, String staffRole) {
@@ -15,6 +15,15 @@ public class Staff extends Person {
     @Override
     public void displayDetails() {
         super.displayDetails();
-        System.out.println("Role: Staff, Staff Role: " + staffRole);
+        System.out.println("Role: Staff");
+        System.out.println("Staff Role: " + staffRole);
+        System.out.println("-------------------------");
+    }
+
+    // Implement Storable (CSV format)
+    @Override
+    public String toDataString() {
+        // id,name,staffRole
+        return getId() + "," + getName() + "," + staffRole;
     }
 }

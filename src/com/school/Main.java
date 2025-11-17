@@ -1,75 +1,56 @@
 package com.school;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
-        // Create Students
-        Student s1 = new Student("Alice", "Grade 10");
-        Student s2 = new Student("Bob", "Grade 11");
-        Student s3 = new Student("Sravani", "Grade 12");
 
-        // Create Teachers
-        Teacher t1 = new Teacher("Mr. Smith", "Mathematics");
-        Teacher t2 = new Teacher("Ms. Patel", "Computer Science");
+        // === Create shared services ===
+        FileStorageService storageService = new FileStorageService();
+        RegistrationService registrationService = new RegistrationService(storageService);
+        AttendanceService attendanceService = new AttendanceService(storageService, registrationService);
 
-        // Create Staff
-        Staff st1 = new Staff("Mrs. Johnson", "Librarian");
-        Staff st2 = new Staff("Mr. Kumar", "Lab Assistant");
+        // === Register Students ===
+        Student s1 = registrationService.registerStudent("Alice", "Grade 10");
+        Student s2 = registrationService.registerStudent("Bob", "Grade 11");
+        Student s3 = registrationService.registerStudent("Sravani", "Grade 12");
 
-        // Create Courses
-        Course c1 = new Course("Mathematics");
-        Course c2 = new Course("DBMS");
-        Course c3 = new Course("Computer Science");
+        // === Register Teachers ===
+        Teacher t1 = registrationService.registerTeacher("Mr. Smith", "Mathematics");
+        Teacher t2 = registrationService.registerTeacher("Ms. Patel", "Computer Science");
 
-        // Display student details
-        System.out.println("=== Students ===");
-        s1.displayDetails();
-        s2.displayDetails();
-        s3.displayDetails();
+        // === Register Staff ===
+        Staff st1 = registrationService.registerStaff("Mrs. Johnson", "Librarian");
+        Staff st2 = registrationService.registerStaff("Mr. Kumar", "Lab Assistant");
 
-        // Display teacher details
-        System.out.println("\n=== Teachers ===");
-        t1.displayDetails();
-        t2.displayDetails();
+        // === Create Courses ===
+        Course c1 = registrationService.createCourse("Mathematics");
+        Course c2 = registrationService.createCourse("DBMS");
+        Course c3 = registrationService.createCourse("Computer Science");
 
-        // Display staff details
-        System.out.println("\n=== Staff ===");
-        st1.displayDetails();
-        st2.displayDetails();
+        // === Display Directory ===
+        displaySchoolDirectory(registrationService);
 
-        // Display course details
-        System.out.println("\n=== Courses ===");
-        c1.displayDetails();
-        c2.displayDetails();
-        c3.displayDetails();
+        // === Mark Attendance using IDs ===
+        attendanceService.markAttendance(s1.getId(), c1.getCourseId(), "Present");
+        attendanceService.markAttendance(s2.getId(), c2.getCourseId(), "ABSENT");
+        attendanceService.markAttendance(s3.getId(), c3.getCourseId(), "Late"); // invalid -> will be "Invalid"
 
-        // Attendance Log
-        System.out.println("\n=== Attendance Records ===");
-        List<AttendanceRecord> attendanceLog = new ArrayList<>();
-        attendanceLog.add(new AttendanceRecord(s1.getId(), c1.getCourseId(), "Present"));
-        attendanceLog.add(new AttendanceRecord(s2.getId(), c2.getCourseId(), "ABSENT"));
-        attendanceLog.add(new AttendanceRecord(s3.getId(), c3.getCourseId(), "Late")); // invalid
+        // Show attendance on console
+        attendanceService.displayAttendance();
 
-        for (AttendanceRecord record : attendanceLog) {
-            record.displayRecord();
+        // === Save all data to files ===
+        registrationService.saveAllRegistrations();
+        attendanceService.saveAttendanceData();
+    }
+
+    private static void displaySchoolDirectory(RegistrationService regService) {
+        System.out.println("=== School Directory: People ===");
+        for (Person p : regService.getAllPeople()) {
+            p.displayDetails();
         }
 
-        // === Part 6: Save data to files ===
-        List<Student> students = new ArrayList<>();
-        students.add(s1);
-        students.add(s2);
-        students.add(s3);
-
-        List<Course> courses = new ArrayList<>();
-        courses.add(c1);
-        courses.add(c2);
-        courses.add(c3);
-
-        FileStorageService storage = new FileStorageService();
-        storage.saveData(students, "students.txt");
-        storage.saveData(courses, "courses.txt");
-        storage.saveData(attendanceLog, "attendance_log.txt");
+        System.out.println("\n=== Courses ===");
+        for (Course c : regService.getCourses()) {
+            c.displayDetails();
+        }
     }
 }
